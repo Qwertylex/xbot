@@ -4,7 +4,7 @@ import re
 
 def parse(bot, args):
     command = ' '.join([arg for arg in args[1:]])
-    arguments = ['python', '-c', command]
+    arguments = ['python2', '-c', command]
     result = subprocess.Popen(arguments, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).communicate()[0]
     
     if len(result.split('\n')) > 4 or len(result) > 445:
@@ -22,6 +22,6 @@ def parse(bot, args):
 
 
 def _eval(bot, args):
-    reply(bot.remote['sendee'], parse(bot, args))
+    util.answer(bot, parse(bot, args))
 
 util.register(_eval, "admin", "eval", "eval")
