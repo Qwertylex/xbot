@@ -15,7 +15,7 @@ def mishimmie(bot, args):
             posturl = "http://shimmie.katawa-shoujo.com%s" % doc.find_class('thumb')[0].xpath('a')[0].get('href')
             posturl = re.sub('\?.*', '', posturl)
             postdesc = doc.find_class('thumb')[0].xpath('a')[0].xpath('img')[0].get('alt')
-            util.answer(bot, "\x02Mishimmie:\x02 %s - %s" % (postdesc, posturl))
+            util.answer(bot, "\x02Mishimmie:\x02 %s // %s" % (postdesc, posturl))
         except IndexError:
             util.answer(bot, "\x02Mishimmie:\x02 No results.")
     else:
