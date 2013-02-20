@@ -158,6 +158,7 @@ class Client(object):
 class Parser(Client):
     def __init__(self, config):
         super(Parser, self).__init__(config)
+        self.config = config
         self.network = config.active_network
         self.init = {
             'ident': 0, 'retries': 0, 'ready': False, 'log': True,
@@ -224,7 +225,14 @@ class Parser(Client):
                         modules._io.read(self)
                     except:
                         error_message = "Traceback (most recent call last):\n" + '\n'.join(traceback.format_exc().split("\n")[-4:-1])
-                        self._sendq(("NOTICE", self.remote['sendee'] or self.admin), error_message)
+
+                        if self.config.get(self.network, 'traceback_notice_channel') == "yes" or self.remote['sendee'][0] != "#":
+                            sendto = self.remote['sendee'] or self.admin
+                        else:
+                            sendto = self.admin
+
+                        self._sendq(("NOTICE", sendto), error_message)
+
                 if self.init['joined']:
                     self._updateNicks()             
         else:
