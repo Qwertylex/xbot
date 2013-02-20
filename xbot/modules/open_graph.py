@@ -18,7 +18,11 @@ def open_graph(bot, url):
         return None
     
     bot._debug('Sending HEAD request...')
-    response = urllib2.urlopen(HeadRequest(url), timeout = 2)
+    try:
+        response = urllib2.urlopen(HeadRequest(url), timeout = 2)
+    except urllib2.URLError:
+        return None
+
     conttype = response.info().getheader('Content-Type')
     bot._debug("Content-type: %s" % conttype.encode('utf8'))
     if not re.search("html", conttype):
